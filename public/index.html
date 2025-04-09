@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Exclusive Dome Calendar</title>
+</head>
+<body>
+  <h1>Lodgify Calendar Monitor</h1>
+  <p>This file is meant to be copied into your WIX custom embed HTML block.</p>
+  <script>
+    const PROXY_URL = 'https://YOUR_NETLIFY_SITE.netlify.app/.netlify/functions/lodgify-proxy';
+    const PROPERTY_ID = '661957';
+
+    function fetchAndRender() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = today.getMonth();
+      const from = `${year}-${String(month + 1).padStart(2, '0')}-01`;
+      const to = `${year}-${String(month + 2).padStart(2, '0')}-01`;
+
+      fetch(`${PROXY_URL}?propertyId=${PROPERTY_ID}&from=${from}&to=${to}`)
+        .then(response => response.json())
+        .then(data => console.log('Calendar data:', data))
+        .catch(error => console.error('Proxy error:', error));
+    }
+
+    fetchAndRender();
+  </script>
+</body>
+</html>
